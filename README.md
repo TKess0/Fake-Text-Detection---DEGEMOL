@@ -48,5 +48,5 @@ L'histogramme ainsi construit nous permet d'analyser de façon aggrégée les pr
 
 Apache 2
 
-© 2019 par Hendrik Strobelt, Sebastian Gehrmann, Alexander M. Rush
+© 2019 par Hendrik Strobelt, Sebastian Gehrmann, Alexander M. Rush<br>
 © 2022 par Pierre de Boisredon, Sylvain Delgendre, Thomas Kessous, François Schmerber
