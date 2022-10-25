@@ -75,53 +75,56 @@
 
     <div id="header">
         <div id="headertext">
-            <span style="font-weight: bold;">G</span>iant <span style="font-weight: bold;">L</span>anguage model <span
-                style="font-weight: bold;">T</span>est <span style="font-weight: bold;">R</span>oom
+            <span style="font-weight: bold;">Dé</span>tection de texte <span style="font-weight: bold;">gé</span>néré automatiquement par un <span
+                style="font-weight: bold;">mo</span>dèle de <span style="font-weight: bold;">l</span>angage
 
         </div>
     </div>
-    <div id="loader" style="top:50px;opacity:1;transition-property: opacity; transition-duration: .5s;"> Loading...
+    <div id="loader" style="top:50px;opacity:1;transition-property: opacity; transition-duration: .5s;"> Chargement...
     </div>
     <div class="main_frame" style="opacity:0;transition-property: opacity; transition-duration: 1s;">
 
         <div class="floating_content">
-            <div> The GLTR demo enables forensic inspection of the visual footprint of a
-                language model on input text to detect whether a text could be real or fake. It is a collaborative
-                effort between
-                <a href='http://hendrik.strobelt.com' target="_blank">Hendrik Strobelt</a>, <a
+            <div>Dégémol propose d'inspecter l'empreinte laissé par un modèle de langage sur un texte donné, afin de déterminer si celui-ci a été généré automatiquement ou non.
+                Ce projet a d'abord été le fruit d'une collaboration entre <a href='http://hendrik.strobelt.com' target="_blank">Hendrik Strobelt</a>, <a
                     href="https://scholar.harvard.edu/gehrmann/home" target="_blank">Sebastian Gehrmann</a>,
-                and <a href="http://nlp.seas.harvard.edu/rush.html" target="_blank">Alexander Rush</a> from the <a
-                    href="https://mitibmwatsonailab.mit.edu/" target="_blank" style="font-weight:700">MIT-IBM Watson AI
-                    lab</a>
-                and <a href="http://nlp.seas.harvard.edu/" target="_blank" style="font-weight:700">Harvard NLP</a>.
+                et <a href="http://nlp.seas.harvard.edu/rush.html" target="_blank">Alexander Rush</a> issus du <a
+                    href="https://mitibmwatsonailab.mit.edu/" target="_blank" style="font-weight:700">laboratoire MIT-IBM Watson AI</a>
+                et <a href="http://nlp.seas.harvard.edu/" target="_blank" style="font-weight:700">Harvard NLP</a> pour l'analyse de textes anglo-saxons.
+                Leur travail est ici adapté pour rendre possible une analyse sur des textes écrits en français.
             </div>
-            <p>Please read the detailed <a href='http://gltr.io'>intro about GLTR</a>.
+            <p>Documentation (en anglais) sur <a href='http://gltr.io'>GLTR</a>.
             </p>
-            <p>Each text is analyzed by how likely each word would be the predicted word given
-                the context to the left.
-                If the actual used word would be in the Top 10 predicted words the background is colored green, for Top
-                100 in yellow,
-                Top 1000 red, otherwise violet. Try some sample texts from below and see for yourself if you can spot
-                the
-                difference between machine generated text and human generated text or try your own. (Tip: hover over
-                the words for more detail) </p>
             <p>
-                The histograms show some statistic about the text: Frac(p) describes the fraction of probability
-                for the actual word divided by the maximum probability of any word at this position.
-                The Top 10 entropy describes the entropy along the top 10 results for each word.
+                Chaque texte est analysé d'après la probabilité selon laquelle un mot serait la suite logique de ceux qui le précèdent.
+                Si un mot effectivement présent figure dans le Top 10 des mots prédits par l'algorithme, il est surligné en vert. De même,
+                il est surligné en jaune s'il figure dans le Top 100, et en rouge dans le Top 1000. En dehors du Top 1000, le mot est surligné en
+                violet.
+                Les exemples présentés ci-dessous mêlent des textes issus d'une génération automatique, et d'autres issus de la littérature et
+                écrits par des humains.
+                Passez votre souris sur un mot pour obtenir les prédictions fournies par l'algorithme.
+            </p>
+            <p>
+                Les histogrammes présentent quelques statistiques à propos du texte : Frac(p) décrit pour chaque mot la probabilité qu'il
+                soit effectivement présent, divisé par la probabilité maximale obtenue à cette position.
+                L'histogramme d'entropie décrit l'entropie générée par le Top 10 prédit pour chaque mot.
             </p>
 
-            <h2>Test-Model: <span id="model_name"></span></h2>
-            <div class='demo' style="font-weight:bold;">Quick start - select a demo text:</div>
+            <h2>Modèle utilisé pour le test:
+                <a href="https://huggingface.co/dbddv01/gpt2-french-small?text=Mon+nom+est+Thomas+et+mon+principal">
+                    <span id="model_name"></span> (français)
+                </a>
+            </h2>
+            <div class='demo' style="font-weight:bold;">Sélectionner un texte de démo:</div>
             <div class="demos"></div>
 
             <!-- INPUT TEXT -->
             <!--        <div id="text-input">-->
-            <div style="padding-top: 10px;"><span class="demo">or </span>enter a text:</div>
+            <div style="padding-top: 10px;"><span class="demo">ou </span>saisir un texte :</div>
             <!--        <textarea id="test_text" rows="10" cols="80">The cat was playing in the garden.</textarea>-->
-            <textarea id="test_text" style="width: 100%;height: 50px;">The cat was playing in the garden.</textarea>
+            <textarea id="test_text" style="width: 100%;height: 50px;">Le chat jouait dans le jardin.</textarea>
             <br>
-            <button id="submit_text_btn"> analyze</button>
+            <button id="submit_text_btn"> Analyser</button>
             <div class="loadersmall" style="margin-left:1pt;display: none;"></div>
 
 
@@ -129,15 +132,15 @@
 
                 <div id="stats" style="text-align:center;">
                     <div style="display:inline-block;text-align: center">
-                        <div>top k count</div>
+                        <div>Répartition des mots</div>
                         <svg id="stats_top_k"></svg>
                     </div>
                     <div style="display:inline-block;text-align: center">
-                        <div>frac(p) histogram</div>
+                        <div>Histogramme Frac(p)</div>
                         <svg id="stats_frac"></svg>
                     </div>
                     <div style="display:inline-block;text-align: center">
-                        <div>top 10 entropy(p) histogram</div>
+                        <div>Histogramme d'entropie du Top 10</div>
                         <svg id="stats_entropy"></svg>
                     </div>
                 </div>
@@ -150,7 +153,7 @@
                         <button id="mode_frac_p" class="btn_mode"> Frac P</button>
                     </div>
                     <div style="display: inline-block;">
-                        Colors (top k):
+                        Couleurs (Top k):
                         <div
                             style="width: 15px; height: 15px;background-color: #ADFF80; display: inline-block;position: relative; top:3px;">
                         </div>
@@ -181,19 +184,6 @@
 
                 <!--        </div>-->
             </div>
-            <p style="width:100%;text-align: center;">
-                <a id="tweet_it"
-                    href="https://twitter.com/intent/tweet?text=Catch%20unicorns%20with%20GLTR(http://gltr.io/dist).&hashtags=GLTR,MITIBM,HarvardNLP">Tweet
-                    about GLTR</a>
-                <br>
-                <a href="https://mitibmwatsonailab.mit.edu/" target="_blank" style="font-weight:700">MIT-IBM Watson AI
-                    lab</a>
-                and <a href="http://nlp.seas.harvard.edu/" target="_blank" style="font-weight:700">Harvard NLP</a>
-                <br>
-                <br>
-                <img src="demo/mit_ibm_heart_black.png" height="100px;">
-
-            </p>
         </div>
 
     </div>

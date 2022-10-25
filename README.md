@@ -1,93 +1,52 @@
-# GLTR: Giant Language Model Test Room
-Detecting text that was generated from large language models (e.g. GPT-2).
+# Dégémol
+Détection d'un texte généré automatiquement par un modèle de langage (ex. GPT-2).
 
-<a href='http://gltr.io'>
-  <img src='figs/overview.png' >
-</a>
+Le projet original a été porté par Hendrik Strobelt, Sebastian Gehrmann et Alexander M. Rush. dans le cadre d'une collaboration entre le laboratoire MIT-IBM Watson AI Lab et HarvardNLP, sous le nom de <a href='http://gltr.io'>GLTR (Giant Language Model Test Room)</a>.
 
+Page web du projet (en anglais) : [http://gltr.io](http://gltr.io)<br>
+Démonstration (en anglais) : [http://gltr.io/dist/index.html](http://gltr.io/dist/index.html)<br>
+Publication : [https://arxiv.org/abs/1906.04043](https://arxiv.org/abs/1906.04043)<br> 
 
+## Démarrage rapide
 
-webpage: [http://gltr.io](http://gltr.io)<br>
-online-demo: [http://gltr.io/dist/index.html](http://gltr.io/dist/index.html)<br>
-paper: [https://arxiv.org/abs/1906.04043](https://arxiv.org/abs/1906.04043) 
-
-A project by Hendrik Strobelt, Sebastian Gehrmann, Alexander M. Rush.
-
-collaboration of MIT-IBM Watson AI Lab and HarvardNLP
-
-## Quickstart
-
-Install dependencies for Python >3.6 :
+Installer les dépendances pour Python >3.6 :
 
 ```bash
 pip install -r requirements.txt
 ```
 
-run server for `gpt-2-small`:
+Lancer le serveur pour `gpt2-french-small`:
 
 ```bash
 python server.py
 
 ```
 
-the demo instance runs now at [http://localhost:5001/client/index.html](http://localhost:5001/client/index.html)
+L'app est accessible au lien : [http://localhost:5001/client/index.html](http://localhost:5001/client/index.html)
 
-## Run the BERT server
+## Approche statistique
 
-start the server for `BERT`:
-```bash
-python server.py --model BERT
-```
+### Histogramme des fractions de probabilité
 
-the instance runs now at [http://localhost:5001/client/index.html?nodemo](http://localhost:5001/client/index.html?nodemo). HINT: we only provide demo texts for `gpt2-small`.
+La web-app propose un histogramme représentant la distribution des fractions de probabilité normalisées. Pour un certain mot $p$, il s'agit de déterminer la probabilité que ce mot figure effectivement à cet emplacement étant donné son contexte (en l'occurence les mots précédents). A chaque mot du répertoire $w_i$, on associe une probabilité $x_i$ d'apparition à l'emplacement considéré. On obtient un dictionnaire de la forme :
 
+$${w_1: x_1, w_2: x_2, ..., w_n: x_n}$$
 
-## server.py options
+Les $(x_i)_{1 \leq i \leq n}$ définissent une probabilité, et doivent donc satisfaire la propriété de normalisation :
 
-```
-usage: server.py [-h] [--model MODEL] [--nodebug NODEBUG] [--address ADDRESS]
-                 [--port PORT] [--nocache NOCACHE] [--dir DIR] [--no_cors]
+$$\sum_{i=1}^n x_i = 1$$
 
-optional arguments:
-  -h, --help         show this help message and exit
-  --model MODEL		 choose either 'gpt-2-small' (default) or 'BERT' or your own
-  --nodebug NODEBUG  server in non-debugging mode
-  --port PORT	     port to launch UI and API (default:5001)
-  --no_cors          launch API without CORS support (default: False)
+On identifie ensuite l'indice $k$ tel que $p = w_k$. On peut alors calculer $\text{frac}(p)$ :
 
-```
+$$\text{frac}(p) = \frac{x_k}{\max_{1 \leq i \leq n} x_i}$$
 
+Si le mot $p$ figure en première position des prédictions, on obtient alors $\text{frac}(p)=1$.
 
-## Extend backend
+L'histogramme ainsi construit nous permet d'analyser de façon aggrégée les probabilités d'apparition des différents termes à leurs emplacements respectifs. Un histogramme dont la densité apparaît élevée autour de $\text{frac}(p)=1$ témoigne d'un texte hautement prévisible, et donc plus susceptible d'avoir été généré automatiquement par un modèle de langage.
 
-The backend defines a number of model api's that can be invoked by the server by starting it with the parameter `--model NAME`. To add a custom model, you need to write your own api in `backend/api.py` and add the decorator `@register_api(name=NAME)`.
-
-Each api needs to be a class that inherits from `AbstractLanguageChecker`, which defines two functions `check_probabilities` and `postprocess`. Please follow the documentation within `api.py` when implementing the class and the functions.
-
-
-## Extend frontend
-the source code for the front-end is in `client/src`.
-
-To modify, installing of node dependencies is necessary:
-
-```bash
-cd client/src; npm install; cd ../..
-```
-re-compilation of front-end:
-
-```bash
-> rm -rf client/dist;cd client/src/; npm run build; cd ../..
-```
-
-## License
+## Licence
 
 Apache 2
 
-(c) 2019 by Hendrik Strobelt, Sebastian Gehrmann, Alexander M. Rush
-
-
-
-
-
-
-
+© 2019 par Hendrik Strobelt, Sebastian Gehrmann, Alexander M. Rush
+© 2022 par Pierre de Boisredon, Sylvain Delgendre, Thomas Kessous, François Schmerber

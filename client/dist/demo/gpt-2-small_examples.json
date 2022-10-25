@@ -1,26 +1,18 @@
 [
   {
-    "file": "gpt2_small_top5_uncond.json",
-    "description": "machine: GPT-2 small top_k 5 temp 1"
+    "file": "paris.json",
+    "description": "machine: texte généré 1"
   },
   {
-    "file": "gpt_2_small_top40_t0.7.json",
-    "description": "machine: GPT-2 small top_k 40 temp .7"
+    "file":   "cyclistes.json",
+    "description": "machine: texte généré 2"
   },
   {
-    "file":   "unicorn.json",
-    "description": "machine*: unicorn text (GPT2 large)"
+    "file": "borne.json",
+    "description": "humain: Elisabeth Borne"
   },
   {
-    "file":   "NYTimes.json",
-    "description": "human: NYTimes article"
-  },
-  {
-    "file":   "paper_gan.json",
-    "description": "human: academic text"
-  },
-  {
-    "file":   "woodchuck.json",
-    "description": "human: woodchuck :)"
+    "file": "hugo.json",
+    "description": "humain: Les Misérables"
   }
 ]
