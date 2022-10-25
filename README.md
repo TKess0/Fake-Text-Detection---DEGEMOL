@@ -1,7 +1,7 @@
 # Dégémol
 Détection d'un texte généré automatiquement par un modèle de langage (ex. GPT-2).
 
-Le projet original a été porté par Hendrik Strobelt, Sebastian Gehrmann et Alexander M. Rush. dans le cadre d'une collaboration entre le laboratoire MIT-IBM Watson AI Lab et HarvardNLP, sous le nom de <a href='http://gltr.io'>GLTR (Giant Language Model Test Room)</a>.
+Le projet original a été porté par Hendrik Strobelt, Sebastian Gehrmann et Alexander M. Rush dans le cadre d'une collaboration entre le laboratoire MIT-IBM Watson AI Lab et HarvardNLP, sous le nom de <a href='http://gltr.io'>GLTR (Giant Language Model Test Room)</a>.
 
 Page web du projet (en anglais) : [http://gltr.io](http://gltr.io)<br>
 Démonstration (en anglais) : [http://gltr.io/dist/index.html](http://gltr.io/dist/index.html)<br>
